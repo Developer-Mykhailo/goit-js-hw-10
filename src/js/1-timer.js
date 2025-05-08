@@ -11,7 +11,6 @@ const showMinutes = document.querySelector('[data-minutes]');
 const showSeconds = document.querySelector('[data-seconds]');
 
 btnStart.disabled = true;
-const currentDate = new Date();
 let userSelectedDate = null;
 
 const options = {
@@ -22,11 +21,14 @@ const options = {
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
 
-    if (userSelectedDate <= currentDate) {
+    if (userSelectedDate <= new Date()) {
       iziToast.warning({
         message: 'Please choose a date in the future',
         position: 'center',
+        closeOnClick: true,
+        progressBar: false,
       });
+
       return;
     }
     btnStart.disabled = false;
@@ -44,7 +46,7 @@ function launch() {
     const currentTime = Date.now();
     const diff = userSelectedDate - currentTime;
 
-    if (diff < 0) {
+    if (diff < 1) {
       clearInterval(intervalId); //stop timer
       dateFromInput.disabled = false;
       return;
